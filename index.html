@@ -162,6 +162,39 @@ button { transition: transform 0.1s, background 0.15s, border-color 0.15s; }
 input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 input[type=number] { -moz-appearance: textfield; }
 .tab-content { display: none; } .tab-content.active { display: block; }
+.lock-screen { position: fixed; inset: 0; background: linear-gradient(180deg, #ffffff 0%, #f0f6fc 100%); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+.lock-screen.hidden { display: none; }
+.lock-content { width: 100%; max-width: 360px; text-align: center; }
+.lock-logo { margin-bottom: 18px; }
+.lock-logo .brand-cross::before { left: 22%; right: 22%; height: 12%; }
+.lock-logo .brand-cross::after { top: 22%; bottom: 22%; width: 12%; }
+.lock-title { font-size: 24px; font-weight: 700; color: #1f2937; margin-bottom: 6px; }
+.lock-subtitle { font-size: 15px; color: #6b7280; margin-bottom: 28px; min-height: 20px; }
+.pin-dots { display: flex; justify-content: center; gap: 16px; margin-bottom: 18px; }
+.pin-dot { width: 16px; height: 16px; border: 2px solid #cbd5e1; border-radius: 50%; transition: all 0.15s; }
+.pin-dot.filled { background: #196bc7; border-color: #196bc7; transform: scale(1.1); }
+.pin-dot.error { background: #dc2626; border-color: #dc2626; animation: shake 0.4s; }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.lock-error { font-size: 13px; color: #dc2626; min-height: 18px; margin-bottom: 14px; font-weight: 500; }
+.pin-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 280px; margin: 0 auto; }
+.pin-key { background: #ffffff; border: 1px solid #e5e7eb; color: #1f2937; font-size: 26px; font-weight: 500; height: 64px; border-radius: 50%; cursor: pointer; font-family: inherit; box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: all 0.1s; }
+.pin-key:active { background: #eff6ff; transform: scale(0.95); }
+.pin-key-action { background: transparent; border: none; box-shadow: none; font-size: 18px; color: #196bc7; font-weight: 500; }
+.pin-key-action:active { background: #f3f4f6; }
+.lock-reset { margin-top: 22px; }
+.lock-reset.hidden { display: none; }
+.lock-reset-btn { background: transparent; border: none; color: #dc2626; font-size: 13px; cursor: pointer; font-family: inherit; padding: 8px 16px; text-decoration: underline; }
+.security-section .pf-row { padding: 4px 0; }
+.security-status { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+.security-status.on { background: #d1fae5; color: #065f46; }
+.security-status.off { background: #fee2e2; color: #991b1b; }
+.toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; cursor: pointer; inset: 0; background: #cbd5e1; border-radius: 14px; transition: 0.2s; }
+.toggle-slider::before { position: absolute; content: ''; height: 22px; width: 22px; left: 3px; bottom: 3px; background: #ffffff; border-radius: 50%; transition: 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.toggle-switch input:checked + .toggle-slider { background: #196bc7; }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(22px); }
+.setup-modal-body { padding: 22px 24px; max-height: 70vh; overflow-y: auto; text-align: center; }
 </style>
 </head>
 <body>
@@ -225,7 +258,289 @@ input[type=number] { -moz-appearance: textfield; }
   </div>
 </div>
 
+<div id="lock-screen" class="lock-screen hidden">
+  <div class="lock-content">
+    <div class="lock-logo">
+      <span class="brand-cross" style="width:60px;height:60px;border-radius:14px"></span>
+    </div>
+    <div class="lock-title">Seguimiento</div>
+    <div class="lock-subtitle" id="lock-subtitle">Introduce tu PIN</div>
+    <div class="pin-dots" id="pin-dots">
+      <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+    </div>
+    <div id="lock-error" class="lock-error"></div>
+    <div class="pin-pad" id="pin-pad">
+      <button class="pin-key" onclick="pinPress('1')">1</button>
+      <button class="pin-key" onclick="pinPress('2')">2</button>
+      <button class="pin-key" onclick="pinPress('3')">3</button>
+      <button class="pin-key" onclick="pinPress('4')">4</button>
+      <button class="pin-key" onclick="pinPress('5')">5</button>
+      <button class="pin-key" onclick="pinPress('6')">6</button>
+      <button class="pin-key" onclick="pinPress('7')">7</button>
+      <button class="pin-key" onclick="pinPress('8')">8</button>
+      <button class="pin-key" onclick="pinPress('9')">9</button>
+      <button class="pin-key pin-key-action" id="pin-action-left" onclick="pinActionLeft()"></button>
+      <button class="pin-key" onclick="pinPress('0')">0</button>
+      <button class="pin-key pin-key-action" onclick="pinBackspace()">⌫</button>
+    </div>
+    <div id="lock-reset" class="lock-reset hidden">
+      <button class="lock-reset-btn" onclick="resetProtection()">Restablecer (borra todos los datos)</button>
+    </div>
+  </div>
+</div>
+
 <script>
+// ============================================================
+// LOCK SCREEN — PIN + Biometría (Face ID / Touch ID)
+// ============================================================
+const LK = 'dieta_lock_v1';
+let lockState = null;
+let pinBuffer = '';
+let pinMode = 'unlock';      // 'unlock' | 'setup-new' | 'setup-confirm' | 'change-old' | 'change-new' | 'change-confirm'
+let pinTempNew = '';
+let pinAttempts = 0;
+
+function loadLock() {
+  try { const raw = localStorage.getItem(LK); lockState = raw ? JSON.parse(raw) : null; } catch { lockState = null; }
+}
+function saveLock() {
+  try { localStorage.setItem(LK, JSON.stringify(lockState)); } catch {}
+}
+
+// SHA-256 nativo del navegador para no guardar PIN en claro
+async function hashPin(pin) {
+  const enc = new TextEncoder().encode('dieta_salt_v1::' + pin);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function showLock() { document.getElementById('lock-screen').classList.remove('hidden'); }
+function hideLock() { document.getElementById('lock-screen').classList.add('hidden'); }
+
+function updatePinDots() {
+  const dots = document.querySelectorAll('.pin-dot');
+  dots.forEach((d, i) => {
+    d.classList.remove('error');
+    d.classList.toggle('filled', i < pinBuffer.length);
+  });
+}
+
+function setLockSubtitle(text) { document.getElementById('lock-subtitle').textContent = text; }
+function setLockError(text) { document.getElementById('lock-error').textContent = text || ''; }
+
+function setLockMode(mode) {
+  pinMode = mode;
+  pinBuffer = '';
+  updatePinDots();
+  setLockError('');
+  const actionLeft = document.getElementById('pin-action-left');
+  const reset = document.getElementById('lock-reset');
+  reset.classList.add('hidden');
+  if (mode === 'unlock') {
+    setLockSubtitle('Introduce tu PIN');
+    actionLeft.textContent = lockState && lockState.biometric ? '😊' : '';
+    actionLeft.style.visibility = lockState && lockState.biometric ? 'visible' : 'hidden';
+  } else if (mode === 'setup-new') {
+    setLockSubtitle('Crea un PIN de 4 dígitos');
+    actionLeft.style.visibility = 'hidden';
+  } else if (mode === 'setup-confirm') {
+    setLockSubtitle('Repite el PIN');
+    actionLeft.style.visibility = 'hidden';
+  } else if (mode === 'change-old') {
+    setLockSubtitle('Introduce tu PIN actual');
+    actionLeft.style.visibility = 'hidden';
+  } else if (mode === 'change-new') {
+    setLockSubtitle('Introduce el nuevo PIN');
+    actionLeft.style.visibility = 'hidden';
+  } else if (mode === 'change-confirm') {
+    setLockSubtitle('Repite el nuevo PIN');
+    actionLeft.style.visibility = 'hidden';
+  }
+}
+
+function pinPress(d) {
+  if (pinBuffer.length >= 4) return;
+  pinBuffer += d;
+  updatePinDots();
+  if (pinBuffer.length === 4) setTimeout(processPin, 150);
+}
+
+function pinBackspace() {
+  if (pinBuffer.length === 0) return;
+  pinBuffer = pinBuffer.slice(0, -1);
+  updatePinDots();
+  setLockError('');
+}
+
+function pinActionLeft() {
+  if (pinMode === 'unlock' && lockState && lockState.biometric) {
+    tryBiometric();
+  }
+}
+
+async function processPin() {
+  if (pinMode === 'unlock') {
+    const hash = await hashPin(pinBuffer);
+    if (hash === lockState.pinHash) {
+      pinAttempts = 0;
+      hideLock();
+      pinBuffer = '';
+    } else {
+      pinAttempts++;
+      shakeDots();
+      pinBuffer = '';
+      if (pinAttempts >= 5) {
+        setLockError('Demasiados intentos. Puedes restablecer.');
+        document.getElementById('lock-reset').classList.remove('hidden');
+      } else {
+        setLockError('PIN incorrecto · intento ' + pinAttempts + ' de 5');
+      }
+      setTimeout(updatePinDots, 400);
+    }
+  } else if (pinMode === 'setup-new') {
+    pinTempNew = pinBuffer;
+    setLockMode('setup-confirm');
+  } else if (pinMode === 'setup-confirm') {
+    if (pinBuffer === pinTempNew) {
+      const hash = await hashPin(pinBuffer);
+      lockState = { pinHash: hash, biometric: false, biometricCredId: null };
+      saveLock();
+      pinTempNew = '';
+      hideLock();
+      // Tras crear el PIN, ofrecer Face ID
+      setTimeout(offerBiometric, 400);
+    } else {
+      shakeDots();
+      setLockError('Los PIN no coinciden');
+      pinBuffer = '';
+      pinTempNew = '';
+      setTimeout(() => setLockMode('setup-new'), 600);
+    }
+  } else if (pinMode === 'change-old') {
+    const hash = await hashPin(pinBuffer);
+    if (hash === lockState.pinHash) {
+      setLockMode('change-new');
+    } else {
+      shakeDots();
+      setLockError('PIN incorrecto');
+      pinBuffer = '';
+      setTimeout(updatePinDots, 400);
+    }
+  } else if (pinMode === 'change-new') {
+    pinTempNew = pinBuffer;
+    setLockMode('change-confirm');
+  } else if (pinMode === 'change-confirm') {
+    if (pinBuffer === pinTempNew) {
+      const hash = await hashPin(pinBuffer);
+      lockState.pinHash = hash;
+      saveLock();
+      pinTempNew = '';
+      hideLock();
+      alert('PIN actualizado correctamente.');
+    } else {
+      shakeDots();
+      setLockError('Los PIN no coinciden');
+      pinBuffer = '';
+      pinTempNew = '';
+      setTimeout(() => setLockMode('change-new'), 600);
+    }
+  }
+}
+
+function shakeDots() {
+  document.querySelectorAll('.pin-dot').forEach(d => { d.classList.add('error'); d.classList.remove('filled'); });
+}
+
+// === Biometría con WebAuthn ===
+function bioAvailable() {
+  return !!(window.PublicKeyCredential && navigator.credentials);
+}
+
+async function offerBiometric() {
+  if (!bioAvailable()) return;
+  if (!confirm('¿Quieres activar Face ID / Touch ID para entrar más rápido?')) return;
+  try {
+    await registerBiometric();
+    alert('Face ID activado. La próxima vez puedes tocar 😊 en la pantalla de bloqueo o esperar a que se active solo.');
+  } catch (e) {
+    console.error(e);
+    alert('No se pudo activar Face ID. Puedes intentarlo más tarde desde Ajustes.');
+  }
+}
+
+async function registerBiometric() {
+  const userId = new Uint8Array(16);
+  crypto.getRandomValues(userId);
+  const challenge = new Uint8Array(32);
+  crypto.getRandomValues(challenge);
+  const cred = await navigator.credentials.create({
+    publicKey: {
+      challenge,
+      rp: { name: 'Seguimiento Dieta' },
+      user: { id: userId, name: 'usuario', displayName: 'Usuario' },
+      pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+      authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required' },
+      timeout: 60000,
+      attestation: 'none',
+    },
+  });
+  const credId = btoa(String.fromCharCode(...new Uint8Array(cred.rawId)));
+  lockState.biometric = true;
+  lockState.biometricCredId = credId;
+  saveLock();
+  return true;
+}
+
+async function tryBiometric() {
+  if (!bioAvailable() || !lockState || !lockState.biometricCredId) return;
+  try {
+    const credIdBytes = Uint8Array.from(atob(lockState.biometricCredId), c => c.charCodeAt(0));
+    const challenge = new Uint8Array(32);
+    crypto.getRandomValues(challenge);
+    await navigator.credentials.get({
+      publicKey: {
+        challenge,
+        allowCredentials: [{ id: credIdBytes, type: 'public-key' }],
+        userVerification: 'required',
+        timeout: 30000,
+      },
+    });
+    // Si la operación no lanza error, el usuario se verificó OK
+    pinAttempts = 0;
+    hideLock();
+  } catch (e) {
+    setLockError('Verificación cancelada o fallida');
+  }
+}
+
+function resetProtection() {
+  if (!confirm('ATENCIÓN: esto borrará TODOS tus datos y el PIN. ¿Continuar?')) return;
+  if (!confirm('¿Seguro? No se puede deshacer.')) return;
+  localStorage.removeItem(LK);
+  localStorage.removeItem(SK);
+  location.reload();
+}
+
+function initLock() {
+  loadLock();
+  if (!lockState) {
+    // Primera vez: pedir crear PIN
+    showLock();
+    setLockMode('setup-new');
+  } else {
+    // Hay PIN guardado: pedir desbloqueo
+    showLock();
+    setLockMode('unlock');
+    // Si tiene biométrico, intentar automáticamente al iniciar
+    if (lockState.biometric && bioAvailable()) {
+      setTimeout(() => tryBiometric(), 300);
+    }
+  }
+}
+
+// ============================================================
+// FIN bloqueo. A partir de aquí, la app normal.
+// ============================================================
 const PERFIL_DEFAULT = { sexo: 'M', edad: 47, altura: 188, pesoInicial: 95 };
 const P = () => ({ ...PERFIL_DEFAULT, ...(data.perfil || {}) });
 const tmb = p => {
@@ -581,6 +896,20 @@ function renderAjustes() {
     '<label class="btn-secondary">Importar datos<input type="file" accept=".json,application/json" onchange="importJSON(event)" style="display:none"></label>'+
     '<button class="btn-danger" onclick="resetAll()">Borrar todos los datos</button></div>'+
 
+    '<div class="section security-section"><div class="section-h"><div class="section-h-left"><div class="sec-icon balance">🔒</div><span class="section-t-main">Seguridad</span></div><span class="security-status '+(lockState?'on':'off')+'">'+(lockState?'PROTEGIDA':'SIN PROTECCIÓN')+'</span></div>'+
+    (lockState ? (
+      '<p class="help-text" style="margin-bottom:14px">Tu PIN se pide al abrir la app después de cerrarla del todo.</p>'+
+      '<button class="btn-secondary" onclick="changePinFlow()">Cambiar PIN</button>'+
+      '<div class="pf-row" style="margin-top:14px"><label class="pf-label">Face ID / Touch ID</label>'+
+        '<label class="toggle-switch"><input type="checkbox" '+(lockState.biometric?'checked':'')+' onchange="toggleBiometric(this.checked)"><span class="toggle-slider"></span></label>'+
+      '</div>'+
+      '<button class="btn-danger" onclick="removeLockFlow()">Quitar protección</button>'
+    ) : (
+      '<p class="help-text" style="margin-bottom:14px">La app no tiene protección. Activa un PIN para que solo tú puedas verla.</p>'+
+      '<button class="btn-primary" onclick="setupLockFlow()">Activar protección con PIN</button>'
+    ))+
+    '</div>'+
+
     '<div class="section"><div class="section-h"><div class="section-h-left"><div class="sec-icon cena">ℹ️</div><span class="section-t-main">Acerca de la aplicación</span></div></div>'+
     '<p class="help-text">Aplicación de uso personal sin conexión. Los datos se almacenan localmente en el dispositivo. Para transferir entre dispositivos, exporte el archivo JSON e impórtelo en el otro.</p></div>'+
     '<div class="section" style="opacity:0.6;font-size:12px;text-align:center;padding:14px;color:#6b7280">Seguimiento de Dieta · versión 1.2</div>';
@@ -825,8 +1154,52 @@ document.querySelectorAll('.modal-tab').forEach(t => t.addEventListener('click',
 document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
 document.getElementById('info-modal').addEventListener('click', e => { if (e.target.id === 'info-modal') closeInfoModal(); });
 
+// === Flujos de seguridad (Ajustes) ===
+function setupLockFlow() {
+  showLock();
+  setLockMode('setup-new');
+}
+
+function changePinFlow() {
+  showLock();
+  setLockMode('change-old');
+}
+
+async function toggleBiometric(activar) {
+  if (activar) {
+    if (!bioAvailable()) {
+      alert('Tu dispositivo o navegador no admite Face ID / Touch ID.');
+      renderAjustes();
+      return;
+    }
+    try {
+      await registerBiometric();
+      alert('Face ID / Touch ID activado.');
+      renderAjustes();
+    } catch (e) {
+      alert('No se pudo activar. Inténtalo de nuevo.');
+      renderAjustes();
+    }
+  } else {
+    lockState.biometric = false;
+    lockState.biometricCredId = null;
+    saveLock();
+    alert('Face ID / Touch ID desactivado.');
+    renderAjustes();
+  }
+}
+
+function removeLockFlow() {
+  if (!confirm('¿Seguro que quieres quitar la protección? Cualquiera podrá abrir la app.')) return;
+  lockState = null;
+  localStorage.removeItem(LK);
+  alert('Protección eliminada.');
+  renderAjustes();
+}
+
 load();
 renderAll();
+initLock();
 </script>
 </body>
 </html>
