@@ -281,6 +281,34 @@ input[type=number] { -moz-appearance: textfield; }
 @keyframes splashShine { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30%, 30%); } }
 @keyframes splashIconFadeIn { to { opacity: 1; } }
 
+/* === Modales del gimnasio === */
+.gym-modal { position: fixed; inset: 0; background: rgba(15,23,42,0.55); display: flex; align-items: center; justify-content: center; padding: 18px; z-index: 200; }
+.gym-modal.hidden { display: none; }
+.gym-modal-content { background: #ffffff; width: 100%; max-width: 420px; border-radius: 20px; padding: 22px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-height: 88vh; overflow-y: auto; }
+.gym-modal-title { font-size: 18px; font-weight: 700; color: #1f2937; text-align: center; margin-bottom: 6px; }
+.gym-modal-info { font-size: 13px; color: #6b7280; text-align: center; margin-bottom: 18px; }
+.gym-modal-close { background: #f3f4f6; border: none; color: #6b7280; padding: 12px; border-radius: 10px; width: 100%; font-family: inherit; font-size: 14px; margin-top: 10px; cursor: pointer; }
+.ritmo-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.ritmo-btn { background: #ffffff; border: 2px solid #e5e7eb; border-radius: 14px; padding: 16px 18px; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 14px; transition: all 0.15s; text-align: left; }
+.ritmo-btn:active { transform: scale(0.97); }
+.ritmo-btn:hover { border-color: #196bc7; background: #f8fafc; }
+.ritmo-btn.suave { border-left: 6px solid #10b981; }
+.ritmo-btn.normal { border-left: 6px solid #196bc7; }
+.ritmo-btn.fire { border-left: 6px solid #dc2626; background: linear-gradient(90deg, #fff5f5 0%, #ffffff 50%); }
+.ritmo-btn.fire:hover { background: linear-gradient(90deg, #fee2e2 0%, #ffffff 50%); }
+.ritmo-emoji { font-size: 32px; flex-shrink: 0; }
+.ritmo-info { flex: 1; }
+.ritmo-nombre { font-size: 16px; font-weight: 700; color: #1f2937; }
+.ritmo-desc { font-size: 12px; color: #6b7280; margin-top: 2px; }
+.ritmo-mult { font-size: 11px; color: #196bc7; font-weight: 600; margin-top: 3px; }
+.clases-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.clase-btn { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px 8px; cursor: pointer; font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: all 0.15s; min-height: 92px; }
+.clase-btn:active { transform: scale(0.96); }
+.clase-btn:hover { border-color: #196bc7; background: #eff6ff; }
+.clase-emoji { font-size: 26px; }
+.clase-nombre { font-size: 13px; font-weight: 700; color: #1f2937; text-align: center; line-height: 1.2; }
+.clase-info { font-size: 11px; color: #6b7280; }
+
 /* === NUEVOS estilos para el modal de alimentos ampliado === */
 .food-search { width: 100%; background: #ffffff; border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 14px; color: #1f2937; font-size: 15px; font-family: inherit; margin-bottom: 10px; }
 .food-search:focus { outline: none; border-color: #196bc7; box-shadow: 0 0 0 3px rgba(25,107,199,0.1); }
@@ -405,6 +433,52 @@ input[type=number] { -moz-appearance: textfield; }
       <button class="modal-close" onclick="closeInfoModal()">×</button>
     </div>
     <div class="info-modal-body" id="info-body"></div>
+  </div>
+</div>
+
+<!-- Modal selector de RITMO de una clase -->
+<div id="ritmo-modal" class="gym-modal hidden">
+  <div class="gym-modal-content" id="ritmo-modal-data">
+    <div class="gym-modal-title" id="ritmo-modal-clase">Clase</div>
+    <div class="gym-modal-info" id="ritmo-modal-info">Duración · MET</div>
+    <p style="text-align:center;font-size:14px;color:#374151;margin-bottom:14px;font-weight:600">¿Cómo fue el ritmo?</p>
+    <div class="ritmo-grid">
+      <button class="ritmo-btn suave" onclick="elegirRitmo('suave')">
+        <span class="ritmo-emoji">🌿</span>
+        <div class="ritmo-info">
+          <div class="ritmo-nombre">Suave</div>
+          <div class="ritmo-desc">Sin apretar, ritmo bajo</div>
+          <div class="ritmo-mult">× 0.8 sobre MET base</div>
+        </div>
+      </button>
+      <button class="ritmo-btn normal" onclick="elegirRitmo('normal')">
+        <span class="ritmo-emoji">🔵</span>
+        <div class="ritmo-info">
+          <div class="ritmo-nombre">Normal</div>
+          <div class="ritmo-desc">Tu ritmo habitual</div>
+          <div class="ritmo-mult">× 1.0 sobre MET base</div>
+        </div>
+      </button>
+      <button class="ritmo-btn fire" onclick="elegirRitmo('fire')">
+        <span class="ritmo-emoji">🔥</span>
+        <div class="ritmo-info">
+          <div class="ritmo-nombre">ON FIRE!</div>
+          <div class="ritmo-desc">A reventarla, máxima intensidad</div>
+          <div class="ritmo-mult">× 1.2 sobre MET base</div>
+        </div>
+      </button>
+    </div>
+    <button class="gym-modal-close" onclick="cancelarSelectorRitmo()">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal selector de CLASE del gimnasio (clase suelta) -->
+<div id="clases-modal" class="gym-modal hidden">
+  <div class="gym-modal-content">
+    <div class="gym-modal-title">Elige una clase</div>
+    <div class="gym-modal-info">15 clases disponibles en tu gimnasio</div>
+    <div class="clases-grid" id="clases-grid-content"></div>
+    <button class="gym-modal-close" onclick="cerrarSelectorClases()">Cancelar</button>
   </div>
 </div>
 
@@ -726,12 +800,46 @@ function emojiPara(nombre) {
   return '🍽️';
 }
 
+// ============================================================
+// CATÁLOGO DE CLASES DEL GIMNASIO (Trainingym)
+// duracion en minutos (fija por clase, no se pregunta)
+// met = MET base a ritmo normal
+// ============================================================
+const CLASES_GIMNASIO = [
+  { id:'GAP',         nombre:'GAP',         duracion:30, met:5.5,  emoji:'🦵' },
+  { id:'AF',          nombre:'A.F.',        duracion:55, met:6.0,  emoji:'🏃' },
+  { id:'BIKE_I',      nombre:'BIKE I',      duracion:30, met:8.0,  emoji:'🚴' },
+  { id:'BIKE_II',     nombre:'BIKE II',     duracion:45, met:10.0, emoji:'🚴‍♂️' },
+  { id:'FITPOWER',    nombre:'FIT POWER',   duracion:55, met:6.5,  emoji:'🏋️' },
+  { id:'STEP_II',     nombre:'STEP II',     duracion:55, met:8.5,  emoji:'👟' },
+  { id:'BODYBOX',     nombre:'BODYBOX',     duracion:55, met:7.5,  emoji:'🥊' },
+  { id:'HIIT',        nombre:'HIIT',        duracion:45, met:8.5,  emoji:'⚡' },
+  { id:'BODYFLEX',    nombre:'BODYFLEX',    duracion:55, met:3.0,  emoji:'🧘' },
+  { id:'FITPILATES',  nombre:'FITPILATES',  duracion:55, met:4.0,  emoji:'🤸' },
+  { id:'ABDOGYM',     nombre:'ABDOGYM',     duracion:30, met:5.0,  emoji:'💪' },
+  { id:'ZUMBA',       nombre:'ZUMBA',       duracion:55, met:7.5,  emoji:'💃' },
+  { id:'LATINOS',     nombre:'LATINOS',     duracion:55, met:7.0,  emoji:'🕺' },
+  { id:'AQUAFIT',     nombre:'AQUAFIT',     duracion:45, met:6.0,  emoji:'🏊' },
+  { id:'BODY_SPAR',   nombre:'BODY SPAR',   duracion:55, met:12.0, emoji:'🔥' },
+];
+
+const RITMOS = [
+  { id:'suave',  nombre:'Suave',    mult:0.8, emoji:'🌿', desc:'Sin apretar, ritmo bajo' },
+  { id:'normal', nombre:'Normal',   mult:1.0, emoji:'🔵', desc:'Tu ritmo habitual' },
+  { id:'fire',   nombre:'ON FIRE!', mult:1.2, emoji:'🔥', desc:'A reventarla, máxima intensidad' },
+];
+
+function buscarClase(idOrNombre) {
+  return CLASES_GIMNASIO.find(c => c.id === idOrNombre || c.nombre.toLowerCase() === (idOrNombre||'').toLowerCase());
+}
+
+// Rutina semanal: ids de las clases del catálogo
 const RUTINA = {
-  1:[{a:'HIT',d:30,m:8.5},{a:'FITPOWER',d:55,m:6.5}],
-  2:[{a:'Bike',d:30,m:10.0},{a:'BODYBOX',d:55,m:7.5}],
-  3:[{a:'Bike',d:30,m:10.0},{a:'HIT',d:45,m:8.5}],
-  4:[{a:'BODY SPAR',d:55,m:12.0},{a:'BODYBOX',d:55,m:7.5}],
-  5:[{a:'GAP',d:30,m:5.5},{a:'Bike',d:30,m:10.0}],
+  1:['HIIT','FITPOWER'],          // Lunes: HIIT + FIT POWER
+  2:['BIKE_I','BODYBOX'],         // Martes: Bike + BODYBOX
+  3:['BIKE_I','HIIT'],            // Miércoles: Bike + HIIT
+  4:['BODY_SPAR','BODYBOX'],      // Jueves: BODY SPAR + BODYBOX
+  5:['GAP','BIKE_I'],             // Viernes: GAP + Bike
   0:[], 6:[],
 };
 
@@ -1437,9 +1545,13 @@ function renderHoy() {
     '<div class="item"><div style="flex:1"><div class="item-name">'+esc(it.nombre)+'</div><div class="item-meta">'+esc(it.cantidad)+' · '+it.kcal+' kcal</div></div><button class="btn-x" onclick="removeFood(\''+cat+'\','+i+')">×</button></div>'
   ).join('');
 
-  const renderEj = d.ejercicio.map((e,i) =>
-    '<div class="item"><div style="flex:1"><div class="item-name">'+esc(e.actividad)+'</div><div class="item-meta">'+e.duracion+' min · MET '+e.met+' · '+kcalEjer(e.met,e.duracion,peso)+' kcal</div></div><button class="btn-x" onclick="removeEj('+i+')">×</button></div>'
-  ).join('');
+  const renderEj = d.ejercicio.map((e,i) => {
+    const ritmoObj = e.ritmo ? RITMOS.find(r => r.id === e.ritmo) : null;
+    const ritmoBadge = ritmoObj ? ' · '+ritmoObj.emoji+' '+ritmoObj.nombre : '';
+    const claseObj = e.claseId ? buscarClase(e.claseId) : null;
+    const emoji = claseObj ? claseObj.emoji+' ' : '';
+    return '<div class="item"><div style="flex:1"><div class="item-name">'+emoji+esc(e.actividad)+'</div><div class="item-meta">'+e.duracion+' min · MET '+e.met+ritmoBadge+' · '+kcalEjer(e.met,e.duracion,peso)+' kcal</div></div><button class="btn-x" onclick="removeEj('+i+')">×</button></div>';
+  }).join('');
 
   const comidaSec = (key, lbl) =>
     '<div class="section"><div class="section-h"><div class="section-h-left"><div class="sec-icon '+key+'">'+ICONOS[key]+'</div><span class="section-t-main">'+lbl+'</span></div><span class="section-t" style="color:#196bc7">'+kIn[key]+' kcal</span></div>'+
@@ -1467,7 +1579,7 @@ function renderHoy() {
     comidaSec('cena','Cena')+
     comidaSec('otros','Otros y tentempiés')+
     '<div class="section"><div class="section-h"><div class="section-h-left"><div class="sec-icon ejercicio">'+ICONOS.ejercicio+'</div><span class="section-t-main">Ejercicio físico</span></div><span class="section-t" style="color:#196bc7">'+kEj+' kcal</span></div>'+
-    '<div class="section-h" style="margin-bottom:6px;justify-content:flex-end"><button class="btn-small" onclick="loadRutina()">Cargar rutina del día</button></div>'+
+    '<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap"><button class="btn-small" onclick="loadRutina()">⚡ Cargar rutina del día</button><button class="btn-small" style="background:#10b981" onclick="abrirSelectorClases()">+ Añadir clase suelta</button></div>'+
     (d.ejercicio.length === 0 ? '<div class="empty">Sin entrenamiento registrado</div>' : renderEj)+'</div>';
 }
 
@@ -1637,7 +1749,7 @@ function renderAjustes() {
 
     '<div class="section"><div class="section-h"><div class="section-h-left"><div class="sec-icon cena">ℹ️</div><span class="section-t-main">Acerca de la aplicación</span></div></div>'+
     '<p class="help-text">Aplicación de uso personal sin conexión. Los datos se almacenan localmente en el dispositivo. Para transferir entre dispositivos, exporte el archivo JSON e impórtelo en el otro.</p></div>'+
-    '<div class="section" style="opacity:0.6;font-size:12px;text-align:center;padding:14px;color:#6b7280">ALISALUD · versión 1.4</div>';
+    '<div class="section" style="opacity:0.6;font-size:12px;text-align:center;padding:14px;color:#6b7280">ALISALUD · versión 1.5</div>';
 }
 
 function showInfo(tipo) {
@@ -1733,9 +1845,96 @@ function setPeso(val) {
 function loadRutina() {
   const r = RUTINA[dow(selectedDate)] || [];
   if (r.length === 0) { alert('No hay rutina prevista para este día (fin de semana).'); return; }
+  // Cargar las clases en pendientes y abrir el primer selector de ritmo
+  pendientesRitmo = r.slice();
+  abrirSelectorRitmo();
+}
+
+// Cola de clases pendientes de asignar ritmo
+let pendientesRitmo = [];
+
+function abrirSelectorRitmo() {
+  if (pendientesRitmo.length === 0) return;
+  const claseId = pendientesRitmo[0];
+  const clase = buscarClase(claseId);
+  if (!clase) {
+    pendientesRitmo.shift();
+    abrirSelectorRitmo();
+    return;
+  }
+  mostrarModalRitmo(clase);
+}
+
+function mostrarModalRitmo(clase) {
+  document.getElementById('ritmo-modal-clase').textContent = clase.emoji + ' ' + clase.nombre;
+  document.getElementById('ritmo-modal-info').textContent = clase.duracion + ' min · MET base ' + clase.met;
+  document.getElementById('ritmo-modal-data').dataset.claseId = clase.id;
+  document.getElementById('ritmo-modal').classList.remove('hidden');
+}
+
+function elegirRitmo(ritmoId) {
+  const claseId = document.getElementById('ritmo-modal-data').dataset.claseId;
+  const clase = buscarClase(claseId);
+  const ritmo = RITMOS.find(r => r.id === ritmoId);
+  if (!clase || !ritmo) return;
+
   const d = ensureDay(selectedDate);
-  d.ejercicio = r.map(x => ({actividad:x.a, duracion:x.d, met:x.m}));
-  save(); renderHoy();
+  const metEfectivo = +(clase.met * ritmo.mult).toFixed(2);
+  d.ejercicio.push({
+    actividad: clase.nombre,
+    claseId: clase.id,
+    duracion: clase.duracion,
+    met: metEfectivo,
+    metBase: clase.met,
+    ritmo: ritmo.id,
+    ritmoNombre: ritmo.nombre,
+  });
+  save();
+  cerrarModalRitmo();
+
+  // Si quedan más pendientes (de cargar rutina), saca la siguiente
+  if (pendientesRitmo.length > 0) {
+    pendientesRitmo.shift();
+    if (pendientesRitmo.length > 0) {
+      setTimeout(abrirSelectorRitmo, 220);
+    } else {
+      renderHoy();
+    }
+  } else {
+    renderHoy();
+  }
+}
+
+function cerrarModalRitmo() {
+  document.getElementById('ritmo-modal').classList.add('hidden');
+}
+
+function cancelarSelectorRitmo() {
+  pendientesRitmo = [];
+  cerrarModalRitmo();
+}
+
+// Añadir una clase suelta desde el selector (no de la rutina)
+function addClaseGym(claseId) {
+  pendientesRitmo = [claseId];
+  cerrarSelectorClases();
+  setTimeout(abrirSelectorRitmo, 180);
+}
+
+function abrirSelectorClases() {
+  const grid = document.getElementById('clases-grid-content');
+  grid.innerHTML = CLASES_GIMNASIO.map(c =>
+    '<button class="clase-btn" onclick="addClaseGym(\''+c.id+'\')">'+
+      '<div class="clase-emoji">'+c.emoji+'</div>'+
+      '<div class="clase-nombre">'+esc(c.nombre)+'</div>'+
+      '<div class="clase-info">'+c.duracion+' min · MET '+c.met+'</div>'+
+    '</button>'
+  ).join('');
+  document.getElementById('clases-modal').classList.remove('hidden');
+}
+
+function cerrarSelectorClases() {
+  document.getElementById('clases-modal').classList.add('hidden');
 }
 
 function removeEj(idx) {
