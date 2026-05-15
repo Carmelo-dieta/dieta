@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Dieta">
+<meta name="apple-mobile-web-app-title" content="ALISALUD">
 <meta name="theme-color" content="#ffffff">
-<title>Seguimiento · Dieta</title>
+<title>ALISALUD · Alimentación + Salud</title>
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQwIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iNzUiIHk9IjQwIiB3aWR0aD0iMzAiIGhlaWdodD0iMTAwIiBmaWxsPSIjMTk2YmM3Ii8+PHJlY3QgeD0iNDAiIHk9Ijc1IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjMTk2YmM3Ii8+PC9zdmc+">
 <script src="alimentos_data.js"></script>
 <style>
@@ -26,8 +26,8 @@ header { padding: 22px 22px 14px; display: flex; justify-content: space-between;
 .brand2 { font-size: 11px; color: #6b7280; margin-top: 2px; letter-spacing: 0.04em; }
 .dot { width: 11px; height: 11px; border-radius: 50%; background: #d1d5db; transition: background 0.3s; }
 .dot.on { background: #10b981; }
-.tabs { display: grid; grid-template-columns: repeat(4, 1fr); background: #ffffff; border-bottom: 1px solid #e5e7eb; }
-.tab { background: transparent; border: none; color: #6b7280; padding: 14px 4px; font-size: 13px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; font-family: inherit; border-bottom: 3px solid transparent; transition: all 0.15s; font-weight: 500; }
+.tabs { display: grid; grid-template-columns: repeat(5, 1fr); background: #ffffff; border-bottom: 1px solid #e5e7eb; }
+.tab { background: transparent; border: none; color: #6b7280; padding: 12px 2px; font-size: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; font-family: inherit; border-bottom: 3px solid transparent; transition: all 0.15s; font-weight: 500; }
 .tab.active { color: #196bc7; border-bottom-color: #196bc7; }
 .tab .ico { font-size: 18px; }
 main { padding: 16px 18px; background: #f5f7fa; min-height: calc(100vh - 130px); }
@@ -197,6 +197,90 @@ input[type=number] { -moz-appearance: textfield; }
 .toggle-switch input:checked + .toggle-slider::before { transform: translateX(22px); }
 .setup-modal-body { padding: 22px 24px; max-height: 70vh; overflow-y: auto; text-align: center; }
 
+/* === Estilos pestaña SALUD === */
+.salud-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px 18px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.salud-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.salud-card-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.salud-card-title { font-size: 15px; font-weight: 600; color: #1f2937; }
+.macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 8px 0; }
+.macro-cell { text-align: center; padding: 10px 6px; background: #f8fafc; border-radius: 8px; border: 1px solid #e5e7eb; }
+.macro-label { font-size: 11px; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.macro-value { font-size: 18px; font-weight: 700; color: #1f2937; margin-top: 3px; }
+.macro-unit { font-size: 11px; color: #9ca3af; font-weight: 500; }
+.macro-pct { font-size: 11px; color: #196bc7; font-weight: 600; margin-top: 2px; }
+.bar-row { margin: 8px 0; }
+.bar-label { display: flex; justify-content: space-between; font-size: 13px; color: #374151; margin-bottom: 4px; }
+.bar-track { height: 8px; background: #f3f4f6; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s; }
+.bar-fill.prot { background: linear-gradient(90deg, #196bc7, #3b82f6); }
+.bar-fill.carb { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.bar-fill.grasa { background: linear-gradient(90deg, #10b981, #34d399); }
+.bar-fill.fibra { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+.alert-box { padding: 12px 14px; border-radius: 10px; margin-bottom: 10px; display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.5; }
+.alert-box.warn { background: #fef3c7; border: 1px solid #fcd34d; color: #92400e; }
+.alert-box.danger { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; }
+.alert-box.info { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+.alert-box.ok { background: #d1fae5; border: 1px solid #86efac; color: #065f46; }
+.alert-box .alert-icon { font-size: 20px; flex-shrink: 0; }
+.alert-box .alert-content { flex: 1; }
+.alert-box b { font-weight: 600; }
+.sintoma-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+.sintoma-btn { background: #f8fafc; border: 2px solid #e5e7eb; border-radius: 10px; padding: 12px 8px; cursor: pointer; font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all 0.15s; }
+.sintoma-btn.selected { background: #eff6ff; border-color: #196bc7; box-shadow: 0 0 0 3px rgba(25,107,199,0.08); }
+.sintoma-icon { font-size: 22px; }
+.sintoma-label { font-size: 12px; font-weight: 600; color: #1f2937; text-align: center; }
+.sintoma-scale { display: flex; gap: 4px; margin-top: 8px; justify-content: center; }
+.scale-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #ffffff; cursor: pointer; font-size: 13px; font-weight: 600; color: #374151; font-family: inherit; }
+.scale-btn.selected { background: #196bc7; color: #ffffff; border-color: #196bc7; }
+.scale-btn.severity-1.selected { background: #10b981; border-color: #10b981; }
+.scale-btn.severity-2.selected { background: #84cc16; border-color: #84cc16; }
+.scale-btn.severity-3.selected { background: #f59e0b; border-color: #f59e0b; }
+.scale-btn.severity-4.selected { background: #f97316; border-color: #f97316; }
+.scale-btn.severity-5.selected { background: #dc2626; border-color: #dc2626; }
+.alimento-riesgo { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #fff7ed; border-left: 3px solid #f97316; border-radius: 6px; margin-bottom: 6px; font-size: 13px; }
+.alimento-riesgo.alto { background: #fee2e2; border-left-color: #dc2626; }
+.alimento-riesgo .ar-name { font-weight: 600; color: #1f2937; }
+.alimento-riesgo .ar-reason { font-size: 12px; color: #6b7280; margin-top: 2px; }
+.patron-row { padding: 10px 12px; background: #f8fafc; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid #196bc7; font-size: 13px; line-height: 1.5; }
+.patron-row b { color: #1f2937; }
+.salud-empty { text-align: center; padding: 30px 20px; color: #9ca3af; font-size: 14px; }
+.diary-note { background: #fefce8; border: 1px solid #fde68a; border-radius: 8px; padding: 10px 12px; font-size: 13px; color: #713f12; margin-top: 8px; line-height: 1.5; }
+.score-circle { width: 80px; height: 80px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 700; color: #ffffff; }
+.score-circle.bueno { background: linear-gradient(135deg, #10b981, #059669); }
+.score-circle.medio { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.score-circle.bajo { background: linear-gradient(135deg, #dc2626, #991b1b); }
+.score-num { font-size: 26px; line-height: 1; }
+.score-label { font-size: 10px; opacity: 0.9; margin-top: 2px; }
+.disclaimer { font-size: 11px; color: #9ca3af; text-align: center; padding: 14px 18px; line-height: 1.5; font-style: italic; }
+
+/* === Pantalla de bienvenida (Splash) ALISALUD === */
+.splash-screen { position: fixed; inset: 0; background: linear-gradient(135deg, #196bc7 0%, #1e40af 50%, #0f172a 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+.splash-screen.hide { opacity: 0; transform: scale(1.05); pointer-events: none; }
+.splash-content { text-align: center; color: #ffffff; max-width: 360px; }
+.splash-logo { width: 130px; height: 130px; margin: 0 auto 28px; position: relative; opacity: 0; transform: scale(0.5) rotate(-15deg); animation: splashLogoIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards; }
+.splash-logo-bg { width: 100%; height: 100%; background: #ffffff; border-radius: 30px; box-shadow: 0 18px 50px rgba(0,0,0,0.35), inset 0 -4px 0 rgba(0,0,0,0.08); position: relative; overflow: hidden; }
+.splash-logo-bg::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(25,107,199,0.15) 0%, transparent 40%); animation: splashShine 3s ease-in-out infinite; }
+.splash-cross { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.splash-cross-v { position: absolute; width: 26px; height: 78px; background: linear-gradient(180deg, #196bc7, #1e40af); border-radius: 8px; box-shadow: 0 3px 8px rgba(25,107,199,0.3); }
+.splash-cross-h { position: absolute; width: 78px; height: 26px; background: linear-gradient(90deg, #196bc7, #1e40af); border-radius: 8px; box-shadow: 0 3px 8px rgba(25,107,199,0.3); }
+.splash-cross-fork { position: absolute; top: 25px; right: 18px; width: 16px; height: 28px; opacity: 0; animation: splashIconFadeIn 0.6s ease 1s forwards; }
+.splash-cross-fork::before, .splash-cross-fork::after { content: ''; position: absolute; background: #10b981; border-radius: 1px; }
+.splash-cross-fork::before { top: 0; left: 0; width: 3px; height: 12px; box-shadow: 6px 0 0 #10b981, 12px 0 0 #10b981; }
+.splash-cross-fork::after { top: 12px; left: 0; width: 16px; height: 14px; border-radius: 0 0 3px 3px; }
+.splash-leaf { position: absolute; bottom: 20px; left: 18px; font-size: 22px; opacity: 0; animation: splashIconFadeIn 0.6s ease 1.1s forwards; }
+.splash-title { font-size: 42px; font-weight: 800; letter-spacing: 0.12em; opacity: 0; transform: translateY(15px); animation: splashTextIn 0.7s ease 0.5s forwards; background: linear-gradient(135deg, #ffffff 30%, #bfdbfe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.splash-subtitle { font-size: 14px; font-weight: 500; margin-top: 8px; opacity: 0; transform: translateY(15px); animation: splashTextIn 0.6s ease 0.8s forwards; color: #bfdbfe; letter-spacing: 0.05em; }
+.splash-loading { margin-top: 36px; display: flex; gap: 8px; justify-content: center; opacity: 0; animation: splashTextIn 0.5s ease 1.2s forwards; }
+.splash-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.7); animation: splashDots 1.4s infinite ease-in-out both; }
+.splash-dot:nth-child(2) { animation-delay: 0.2s; }
+.splash-dot:nth-child(3) { animation-delay: 0.4s; }
+.splash-tagline { margin-top: 22px; font-size: 12px; color: rgba(255,255,255,0.6); opacity: 0; animation: splashTextIn 0.6s ease 1.4s forwards; font-style: italic; }
+@keyframes splashLogoIn { to { opacity: 1; transform: scale(1) rotate(0deg); } }
+@keyframes splashTextIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes splashDots { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+@keyframes splashShine { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30%, 30%); } }
+@keyframes splashIconFadeIn { to { opacity: 1; } }
+
 /* === NUEVOS estilos para el modal de alimentos ampliado === */
 .food-search { width: 100%; background: #ffffff; border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 14px; color: #1f2937; font-size: 15px; font-family: inherit; margin-bottom: 10px; }
 .food-search:focus { outline: none; border-color: #196bc7; box-shadow: 0 0 0 3px rgba(25,107,199,0.1); }
@@ -217,13 +301,38 @@ input[type=number] { -moz-appearance: textfield; }
 </style>
 </head>
 <body>
+
+<!-- Pantalla de bienvenida ALISALUD -->
+<div id="splash-screen" class="splash-screen">
+  <div class="splash-content">
+    <div class="splash-logo">
+      <div class="splash-logo-bg">
+        <div class="splash-cross">
+          <div class="splash-cross-v"></div>
+          <div class="splash-cross-h"></div>
+        </div>
+        <div class="splash-leaf">🌿</div>
+        <div class="splash-cross-fork"></div>
+      </div>
+    </div>
+    <div class="splash-title">ALISALUD</div>
+    <div class="splash-subtitle">Alimentación + Salud</div>
+    <div class="splash-loading">
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+    </div>
+    <div class="splash-tagline">Tu compañero diario hacia una vida más saludable</div>
+  </div>
+</div>
+
 <div class="app">
   <header>
     <div class="brand-icon">
       <span class="brand-cross"></span>
       <span class="brand-text">
-        <span class="brand1">Seguimiento</span>
-        <span class="brand2">Balance energético</span>
+        <span class="brand1">ALISALUD</span>
+        <span class="brand2">Alimentación + Salud</span>
       </span>
     </div>
     <div id="save-dot" class="dot" title="guardado"></div>
@@ -231,12 +340,14 @@ input[type=number] { -moz-appearance: textfield; }
   <nav class="tabs">
     <button class="tab active" data-tab="hoy"><span class="ico">📋</span><span>Hoy</span></button>
     <button class="tab" data-tab="peso"><span class="ico">⚖️</span><span>Peso</span></button>
+    <button class="tab" data-tab="salud"><span class="ico">🩺</span><span>Salud</span></button>
     <button class="tab" data-tab="historial"><span class="ico">📊</span><span>Historial</span></button>
     <button class="tab" data-tab="ajustes"><span class="ico">⚙️</span><span>Ajustes</span></button>
   </nav>
   <main>
     <div id="tab-hoy" class="tab-content active"></div>
     <div id="tab-peso" class="tab-content"></div>
+    <div id="tab-salud" class="tab-content"></div>
     <div id="tab-historial" class="tab-content"></div>
     <div id="tab-ajustes" class="tab-content"></div>
   </main>
@@ -302,7 +413,7 @@ input[type=number] { -moz-appearance: textfield; }
     <div class="lock-logo">
       <span class="brand-cross" style="width:60px;height:60px;border-radius:14px"></span>
     </div>
-    <div class="lock-title">Seguimiento</div>
+    <div class="lock-title">ALISALUD</div>
     <div class="lock-subtitle" id="lock-subtitle">Introduce tu PIN</div>
     <div class="pin-dots" id="pin-dots">
       <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
@@ -512,7 +623,7 @@ async function registerBiometric() {
   const cred = await navigator.credentials.create({
     publicKey: {
       challenge,
-      rp: { name: 'Seguimiento Dieta' },
+      rp: { name: 'ALISALUD' },
       user: { id: userId, name: 'usuario', displayName: 'Usuario' },
       pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
       authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required' },
@@ -629,6 +740,583 @@ const ICONOS = {
   cena: '🌙', otros: '🍎', ejercicio: '💪',
 };
 
+// ============================================================
+// BASE DE CONOCIMIENTO NUTRICIONAL Y DIGESTIVA
+// ============================================================
+// Cada alimento tiene macros aproximados por 100g (o por unidad si u='ud') y "riesgos digestivos".
+// Riesgos posibles: 'fritos_aceite', 'conservantes', 'gas_fermentacion', 'lactosa', 'gluten_alto',
+// 'cafeina', 'alcohol', 'azucar_anadido', 'sodio_alto', 'grasa_saturada', 'historico'.
+// Si una keyword aparece en el nombre del alimento, se suman sus riesgos.
+
+const RIESGO_KEYWORDS = {
+  // Fritos y aceites recalentados (riesgo gástrico ALTO en restaurantes)
+  'frito': ['fritos_aceite'],
+  'fritas': ['fritos_aceite'],
+  'fritos': ['fritos_aceite'],
+  'patatas fritas': ['fritos_aceite', 'sodio_alto'],
+  'rebozado': ['fritos_aceite'],
+  'romana': ['fritos_aceite'],
+  'empanado': ['fritos_aceite'],
+  'mcdonalds': ['fritos_aceite', 'conservantes', 'sodio_alto'],
+  'burger king': ['fritos_aceite', 'conservantes', 'sodio_alto'],
+  'kebab': ['fritos_aceite', 'conservantes', 'sodio_alto', 'grasa_saturada'],
+  'donut': ['fritos_aceite', 'azucar_anadido'],
+  'churro': ['fritos_aceite', 'azucar_anadido'],
+  'croqueta': ['fritos_aceite', 'grasa_saturada'],
+  'empanadilla': ['fritos_aceite'],
+  'pizza': ['conservantes', 'sodio_alto', 'grasa_saturada'],
+  'hamburguesa': ['fritos_aceite', 'grasa_saturada'],
+
+  // Embutidos / conservantes / nitritos
+  'chorizo': ['conservantes', 'sodio_alto', 'grasa_saturada'],
+  'salchichón': ['conservantes', 'sodio_alto'],
+  'salchichon': ['conservantes', 'sodio_alto'],
+  'salchicha': ['conservantes', 'sodio_alto'],
+  'mortadela': ['conservantes', 'sodio_alto'],
+  'salami': ['conservantes', 'sodio_alto'],
+  'fuet': ['conservantes', 'sodio_alto'],
+  'sobrasada': ['conservantes', 'sodio_alto', 'grasa_saturada'],
+  'bacon': ['conservantes', 'sodio_alto', 'grasa_saturada'],
+  'panceta': ['conservantes', 'sodio_alto', 'grasa_saturada'],
+  'jamón cocido': ['conservantes', 'sodio_alto'],
+  'jamon cocido': ['conservantes', 'sodio_alto'],
+  'fiambre': ['conservantes', 'sodio_alto'],
+  'pavo cocido': ['conservantes'],
+  'pollo cocido fiambre': ['conservantes'],
+  'paté': ['conservantes', 'grasa_saturada'],
+  'pate': ['conservantes', 'grasa_saturada'],
+  'foie': ['grasa_saturada', 'sodio_alto'],
+  'morcilla': ['grasa_saturada', 'sodio_alto'],
+
+  // Alta fermentación / gases
+  'col': ['gas_fermentacion'],
+  'coliflor': ['gas_fermentacion'],
+  'brócoli': ['gas_fermentacion'],
+  'brocoli': ['gas_fermentacion'],
+  'repollo': ['gas_fermentacion'],
+  'coles de bruselas': ['gas_fermentacion'],
+  'cebolla': ['gas_fermentacion'],
+  'puerro': ['gas_fermentacion'],
+  'ajo': ['gas_fermentacion'],
+  'alcachofa': ['gas_fermentacion'],
+  'espárragos': ['gas_fermentacion'],
+  'esparragos': ['gas_fermentacion'],
+  'lentejas': ['gas_fermentacion'],
+  'garbanzos': ['gas_fermentacion'],
+  'alubias': ['gas_fermentacion'],
+  'judías secas': ['gas_fermentacion'],
+  'frijoles': ['gas_fermentacion'],
+  'soja': ['gas_fermentacion'],
+  'habas': ['gas_fermentacion'],
+
+  // Lactosa
+  'leche entera': ['lactosa'],
+  'leche semidesnatada': ['lactosa'],
+  'leche desnatada': ['lactosa'],
+  'nata': ['lactosa', 'grasa_saturada'],
+  'mantequilla': ['lactosa', 'grasa_saturada'],
+  'mascarpone': ['lactosa', 'grasa_saturada'],
+  'queso fresco': ['lactosa'],
+  'requesón': ['lactosa'],
+  'requeson': ['lactosa'],
+  'ricotta': ['lactosa'],
+  // Queso curado: poca lactosa, no se marca
+
+  // Cafeína
+  'café': ['cafeina'],
+  'cafe': ['cafeina'],
+  'té negro': ['cafeina'],
+  'te negro': ['cafeina'],
+  'red bull': ['cafeina', 'azucar_anadido'],
+  'monster': ['cafeina', 'azucar_anadido'],
+  'cola': ['cafeina', 'azucar_anadido'],
+
+  // Alcohol
+  'cerveza': ['alcohol'],
+  'vino': ['alcohol'],
+  'whisky': ['alcohol'],
+  'ron': ['alcohol'],
+  'vodka': ['alcohol'],
+  'ginebra': ['alcohol'],
+  'tequila': ['alcohol'],
+  'cava': ['alcohol'],
+  'champán': ['alcohol'],
+  'champan': ['alcohol'],
+  'vermut': ['alcohol'],
+  'jerez': ['alcohol'],
+  'oporto': ['alcohol'],
+  'sidra': ['alcohol'],
+  'pacharán': ['alcohol'],
+  'mojito': ['alcohol'],
+  'cubata': ['alcohol'],
+  'gin tonic': ['alcohol'],
+
+  // Azúcar añadido
+  'azúcar': ['azucar_anadido'],
+  'azucar': ['azucar_anadido'],
+  'miel': ['azucar_anadido'],
+  'sirope': ['azucar_anadido'],
+  'mermelada': ['azucar_anadido'],
+  'chocolate con leche': ['azucar_anadido', 'lactosa'],
+  'chocolate blanco': ['azucar_anadido', 'lactosa'],
+  'galleta maría': ['azucar_anadido'],
+  'galleta digestive': ['azucar_anadido'],
+  'donuts': ['azucar_anadido', 'fritos_aceite'],
+  'bollycao': ['azucar_anadido', 'conservantes'],
+  'phoskitos': ['azucar_anadido', 'conservantes'],
+  'kit kat': ['azucar_anadido', 'lactosa'],
+  'twix': ['azucar_anadido', 'lactosa'],
+  'snickers': ['azucar_anadido', 'lactosa'],
+  'mars': ['azucar_anadido', 'lactosa'],
+  'nutella': ['azucar_anadido', 'lactosa'],
+  'nocilla': ['azucar_anadido', 'lactosa'],
+  'cola cao': ['azucar_anadido'],
+  'nesquik': ['azucar_anadido'],
+  'refresco': ['azucar_anadido'],
+  'fanta': ['azucar_anadido'],
+  'coca-cola': ['azucar_anadido', 'cafeina'],
+  'zumo envasado': ['azucar_anadido'],
+  'helado': ['azucar_anadido', 'lactosa'],
+
+  // Yogur azucarado: SOLO si dice "azucarado" o sabores
+  'yogur natural azucarado': ['azucar_anadido'],
+  'yogur sabores': ['azucar_anadido'],
+  'yogur de sabores': ['azucar_anadido'],
+
+  // Comida de restaurante / procesados
+  'precocinado': ['conservantes', 'sodio_alto'],
+  'congelado': ['conservantes'],
+  'enlatado': ['conservantes', 'sodio_alto'],
+};
+
+// Macros aproximados por 100g/ud para nombres comunes
+// (Es una simplificación; no necesitamos cobertura total, solo categorías típicas)
+const MACROS_BY_KEYWORD = {
+  // [proteína g, carb g, grasa g, fibra g] por 100g de producto
+  'pollo': [21, 0, 9, 0],
+  'pavo': [22, 0, 4, 0],
+  'pechuga': [22, 0, 4, 0],
+  'ternera': [22, 0, 8, 0],
+  'cerdo lomo': [21, 0, 8, 0],
+  'jamón': [27, 0, 12, 0],
+  'jamon': [27, 0, 12, 0],
+  'huevo': [13, 1, 11, 0],
+  'atún': [25, 0, 4, 0],
+  'atun': [25, 0, 4, 0],
+  'salmón': [20, 0, 13, 0],
+  'salmon': [20, 0, 13, 0],
+  'merluza': [17, 0, 1, 0],
+  'sardina': [25, 0, 11, 0],
+  'gambas': [21, 0, 1, 0],
+  'queso': [22, 2, 30, 0],
+  'requesón': [11, 4, 4, 0],
+  'requeson': [11, 4, 4, 0],
+  'yogur natural': [4, 4, 3, 0],
+  'yogur griego': [9, 4, 5, 0],
+  'yogur azucarado': [4, 13, 3, 0],
+  'leche desnatada': [3, 5, 0, 0],
+  'leche semidesnatada': [3, 5, 1, 0],
+  'leche entera': [3, 5, 4, 0],
+  'pan integral': [9, 41, 3, 7],
+  'pan de semillas': [10, 38, 6, 8],
+  'pan blanco': [9, 49, 3, 3],
+  'tostada': [10, 38, 6, 8],
+  'arroz blanco cocido': [3, 28, 0, 0],
+  'arroz integral cocido': [3, 23, 1, 2],
+  'pasta cocida': [5, 25, 1, 2],
+  'pasta integral cocida': [5, 24, 1, 4],
+  'avena': [13, 67, 7, 11],
+  'quinoa cocida': [4, 21, 2, 3],
+  'patata': [2, 17, 0, 2],
+  'lentejas cocidas': [9, 20, 0, 8],
+  'garbanzos cocidos': [9, 27, 3, 8],
+  'alubias': [9, 23, 0, 6],
+  'manzana': [0, 14, 0, 2],
+  'plátano': [1, 23, 0, 3],
+  'platano': [1, 23, 0, 3],
+  'pera': [0, 15, 0, 3],
+  'naranja': [1, 12, 0, 2],
+  'fresa': [1, 8, 0, 2],
+  'kiwi': [1, 15, 1, 3],
+  'uvas': [1, 17, 0, 1],
+  'aguacate': [2, 9, 15, 7],
+  'tomate': [1, 4, 0, 1],
+  'lechuga': [1, 3, 0, 1],
+  'pepino': [1, 4, 0, 1],
+  'zanahoria': [1, 10, 0, 3],
+  'pimiento': [1, 6, 0, 2],
+  'cebolla': [1, 9, 0, 2],
+  'brócoli': [3, 7, 0, 3],
+  'brocoli': [3, 7, 0, 3],
+  'coliflor': [2, 5, 0, 2],
+  'espinacas': [3, 4, 0, 2],
+  'calabacín': [1, 3, 0, 1],
+  'calabacin': [1, 3, 0, 1],
+  'champiñ': [3, 3, 0, 1],
+  'almendra': [21, 22, 50, 12],
+  'nuez': [15, 14, 65, 7],
+  'cacahuete': [26, 16, 49, 8],
+  'aove': [0, 0, 100, 0],
+  'aceite': [0, 0, 100, 0],
+  'mantequilla': [1, 1, 81, 0],
+  'café con leche': [1, 2, 1, 0],
+  'café solo': [0, 0, 0, 0],
+  'cafe solo': [0, 0, 0, 0],
+  'agua': [0, 0, 0, 0],
+  'cerveza': [0, 4, 0, 0],
+  'vino': [0, 3, 0, 0],
+  'hamburguesa': [12, 18, 12, 1],
+  'pizza': [11, 28, 10, 2],
+  'pan': [9, 45, 4, 4],
+  'galleta': [7, 70, 18, 2],
+  'chocolate': [7, 50, 30, 6],
+  'azúcar': [0, 100, 0, 0],
+  'azucar': [0, 100, 0, 0],
+  'miel': [0, 82, 0, 0],
+  'ensalada': [3, 5, 4, 2],
+};
+
+function detectarRiesgos(nombreAlimento) {
+  // Importante: matching con límites de palabra para evitar falsos positivos
+  // como "nata" matcheando con "desnatada", o "te" con "tomate".
+  const low = ' ' + nombreAlimento.toLowerCase().replace(/[^a-záéíóúñü0-9]/g, ' ') + ' ';
+  const riesgos = new Set();
+  for (const key in RIESGO_KEYWORDS) {
+    // Cada keyword se busca rodeada de delimitadores no-alfa
+    const keyClean = key.toLowerCase();
+    // Si la key tiene varias palabras, buscar la frase completa
+    const pattern = ' ' + keyClean + ' ';
+    if (low.includes(pattern)) {
+      RIESGO_KEYWORDS[key].forEach(r => riesgos.add(r));
+      continue;
+    }
+    // O al final / inicio
+    if (low.startsWith(' ' + keyClean + ' ') || low.endsWith(' ' + keyClean + ' ')) {
+      RIESGO_KEYWORDS[key].forEach(r => riesgos.add(r));
+    }
+  }
+  return Array.from(riesgos);
+}
+
+function estimarMacros(item) {
+  // item = {nombre, cantidad, kcal}
+  // Estrategia: las kcal del registro son la verdad. Sólo necesitamos los RATIOS prot/carb/grasa.
+  const low = ' ' + (item.nombre || '').toLowerCase().replace(/[^a-záéíóúñü0-9]/g, ' ') + ' ';
+  let macros = null;
+  let bestMatch = 0;
+  for (const key in MACROS_BY_KEYWORD) {
+    const pattern = ' ' + key.toLowerCase() + ' ';
+    if (low.includes(pattern) && key.length > bestMatch) {
+      macros = MACROS_BY_KEYWORD[key];
+      bestMatch = key.length;
+    }
+  }
+  const kcal = item.kcal || 0;
+  if (!macros) {
+    // Reparto medio aproximado
+    return { p: (kcal * 0.15) / 4, c: (kcal * 0.50) / 4, g: (kcal * 0.35) / 9, fi: 0 };
+  }
+  const kcalReferencia100g = macros[0]*4 + macros[1]*4 + macros[2]*9;
+  if (kcalReferencia100g <= 0) {
+    return { p: 0, c: 0, g: 0, fi: 0 };
+  }
+  const factor = kcal / kcalReferencia100g;
+  return {
+    p: macros[0] * factor,
+    c: macros[1] * factor,
+    g: macros[2] * factor,
+    fi: macros[3] * factor,
+  };
+}
+
+// Etiquetas legibles de los riesgos
+const RIESGO_LABEL = {
+  'fritos_aceite': '🍳 Frituras / aceites recalentados',
+  'conservantes': '🧪 Conservantes y aditivos',
+  'gas_fermentacion': '💨 Alta fermentación (gases)',
+  'lactosa': '🥛 Lactosa',
+  'cafeina': '☕ Cafeína',
+  'alcohol': '🍷 Alcohol',
+  'azucar_anadido': '🍬 Azúcar añadido',
+  'sodio_alto': '🧂 Sodio alto',
+  'grasa_saturada': '🥓 Grasa saturada',
+};
+
+const RIESGO_CONSEJO = {
+  'fritos_aceite': 'Los aceites reutilizados de restaurantes generan compuestos que irritan la mucosa gástrica. En casa con AOVE limpio el riesgo es mucho menor.',
+  'conservantes': 'Nitritos, sulfitos y otros aditivos pueden causar pesadez, hinchazón y reflujo en personas sensibles.',
+  'gas_fermentacion': 'Alto contenido en FODMAPs y fibras fermentables — producen gas en el colon. No son malos, simplemente difíciles de digerir si vienes con el estómago sensible.',
+  'lactosa': 'Si toleras mal la lactosa puede dar hinchazón, diarrea o gases 30 min - 2 h después.',
+  'cafeina': 'Estimula la secreción ácida del estómago. En exceso puede dar acidez, reflujo y nervios.',
+  'alcohol': 'Irrita la mucosa gástrica y empeora reflujo, hinchazón y digestión.',
+  'azucar_anadido': 'Picos de glucosa, fermentación rápida en intestino y posibles gases.',
+  'sodio_alto': 'Retención de líquidos y sensación de hinchazón sistémica.',
+  'grasa_saturada': 'Ralentiza el vaciado gástrico — digestiones largas y pesadas.',
+};
+
+// ============================================================
+// FUNCIONES DE ANÁLISIS DE SALUD
+// ============================================================
+function analizarDia(date) {
+  const d = data.dias[date];
+  if (!d) return null;
+  const todoComida = [...(d.desayuno||[]), ...(d.comida||[]), ...(d.cena||[]), ...(d.otros||[])];
+  if (todoComida.length === 0) return null;
+
+  let totProt = 0, totCarb = 0, totGrasa = 0, totFibra = 0, totKcal = 0;
+  const riesgosMap = {};
+  const alimentosRiesgo = [];
+
+  todoComida.forEach(item => {
+    const m = estimarMacros(item);
+    totProt += m.p;
+    totCarb += m.c;
+    totGrasa += m.g;
+    totFibra += m.fi;
+    totKcal += item.kcal || 0;
+    const r = detectarRiesgos(item.nombre);
+    if (r.length > 0) {
+      alimentosRiesgo.push({ nombre: item.nombre, cantidad: item.cantidad, kcal: item.kcal, riesgos: r });
+      r.forEach(rg => { riesgosMap[rg] = (riesgosMap[rg]||0) + 1; });
+    }
+  });
+
+  return {
+    prot: Math.round(totProt),
+    carb: Math.round(totCarb),
+    grasa: Math.round(totGrasa),
+    fibra: Math.round(totFibra),
+    kcal: totKcal,
+    riesgosMap,
+    alimentosRiesgo,
+    cafes: (d.cafes||0),
+  };
+}
+
+function detectarPatrones() {
+  // Cruza síntomas con riesgos digestivos de todos los días con síntomas
+  const correlaciones = {};
+  let diasConSintomas = 0;
+  Object.entries(data.dias).forEach(([fecha, d]) => {
+    if (!d.sintomas) return;
+    const sevTotal = (d.sintomas.hinchazon||0) + (d.sintomas.gases||0) + (d.sintomas.acidez||0) + (d.sintomas.pesadez||0);
+    diasConSintomas++;
+    const a = analizarDia(fecha);
+    if (!a) return;
+    Object.keys(a.riesgosMap).forEach(rg => {
+      if (!correlaciones[rg]) correlaciones[rg] = { dias: 0, sumaSev: 0 };
+      correlaciones[rg].dias++;
+      correlaciones[rg].sumaSev += sevTotal;
+    });
+  });
+  return { correlaciones, diasConSintomas };
+}
+
+function setSintoma(nombre, valor) {
+  const d = ensureDay(selectedDate);
+  if (!d.sintomas) d.sintomas = {};
+  d.sintomas[nombre] = valor;
+  save();
+  renderSalud();
+}
+
+function clearSintomas() {
+  if (!confirm('¿Borrar el registro de síntomas de hoy?')) return;
+  const d = ensureDay(selectedDate);
+  d.sintomas = null;
+  save();
+  renderSalud();
+}
+
+function renderSalud() {
+  const analisis = analizarDia(selectedDate);
+  const d = data.dias[selectedDate];
+  const peso = (d && d.peso) || P().pesoInicial;
+  const sint = (d && d.sintomas) || {};
+
+  let html = '';
+
+  // -------- HEADER --------
+  html += '<div class="salud-card" style="background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);">'+
+    '<div class="salud-card-header"><div class="salud-card-icon" style="background:#dbeafe">🩺</div>'+
+    '<div><div class="salud-card-title">Salud · '+dayName(selectedDate)+' '+fmt(selectedDate)+'</div>'+
+    '<div style="font-size:12px;color:#6b7280;margin-top:2px">Análisis nutricional y digestivo del día</div></div></div>'+
+    '<div class="diary-note"><b>Aviso.</b> Esta sección no sustituye a un médico ni a un nutricionista. Es información descriptiva basada en tus registros. Tú decides qué hacer con ella.</div>'+
+    '</div>';
+
+  if (!analisis) {
+    html += '<div class="salud-card"><div class="salud-empty">No hay alimentos registrados aún para este día.<br>Añade comidas en la pestaña <b>Hoy</b> y vuelve aquí para ver el análisis.</div></div>';
+    html += renderSintomasBlock(sint);
+    html += renderPatronesBlock();
+    document.getElementById('tab-salud').innerHTML = html;
+    return;
+  }
+
+  // -------- MACRONUTRIENTES --------
+  const pctP = analisis.kcal ? Math.round((analisis.prot*4*100)/analisis.kcal) : 0;
+  const pctC = analisis.kcal ? Math.round((analisis.carb*4*100)/analisis.kcal) : 0;
+  const pctG = analisis.kcal ? Math.round((analisis.grasa*9*100)/analisis.kcal) : 0;
+  const protPorKg = peso > 0 ? (analisis.prot / peso).toFixed(1) : '0';
+
+  html += '<div class="salud-card">'+
+    '<div class="salud-card-header"><div class="salud-card-icon" style="background:#dbeafe">📊</div><div class="salud-card-title">Macronutrientes estimados</div></div>'+
+    '<div class="macro-grid">'+
+      '<div class="macro-cell"><div class="macro-label">Proteína</div><div class="macro-value">'+analisis.prot+'<span class="macro-unit">g</span></div><div class="macro-pct">'+pctP+'%</div></div>'+
+      '<div class="macro-cell"><div class="macro-label">Carbohidr.</div><div class="macro-value">'+analisis.carb+'<span class="macro-unit">g</span></div><div class="macro-pct">'+pctC+'%</div></div>'+
+      '<div class="macro-cell"><div class="macro-label">Grasas</div><div class="macro-value">'+analisis.grasa+'<span class="macro-unit">g</span></div><div class="macro-pct">'+pctG+'%</div></div>'+
+      '<div class="macro-cell"><div class="macro-label">Fibra</div><div class="macro-value">'+analisis.fibra+'<span class="macro-unit">g</span></div></div>'+
+    '</div>'+
+    '<div class="bar-row"><div class="bar-label"><span>Proteína · '+protPorKg+' g/kg peso</span><span>'+(protPorKg >= 1.2 ? '✅' : protPorKg >= 0.8 ? '⚠️' : '🔻')+'</span></div>'+
+      '<div class="bar-track"><div class="bar-fill prot" style="width:'+Math.min(100, (protPorKg/2)*100)+'%"></div></div></div>'+
+    '<div class="bar-row"><div class="bar-label"><span>Fibra · objetivo 25-35 g</span><span>'+(analisis.fibra >= 25 ? '✅' : analisis.fibra >= 15 ? '⚠️' : '🔻')+'</span></div>'+
+      '<div class="bar-track"><div class="bar-fill fibra" style="width:'+Math.min(100, (analisis.fibra/35)*100)+'%"></div></div></div>'+
+    '<p style="font-size:12px;color:#6b7280;margin-top:10px;line-height:1.5">Cifras estimadas a partir de los alimentos registrados. Los valores reales pueden variar según preparación y marca.</p>'+
+    '</div>';
+
+  // -------- OBSERVACIONES DEL DÍA --------
+  const alertas = [];
+  if (protPorKg < 1.0 && analisis.kcal > 800) {
+    alertas.push({tipo:'info', icon:'💪', txt:'<b>Poca proteína para tu peso y nivel de gimnasio</b>. Con tu volumen de entreno conviene apuntar a ~1,6-2,0 g/kg (unos '+Math.round(peso*1.8)+' g/día). Hoy llevas '+analisis.prot+' g.'});
+  }
+  if (analisis.fibra < 15 && analisis.kcal > 1500) {
+    alertas.push({tipo:'info', icon:'🥬', txt:'<b>Fibra baja</b>. Aumentar verduras, fruta entera y legumbres ayuda al tránsito intestinal y a la saciedad.'});
+  }
+  if (analisis.kcal < 1500 && analisis.kcal > 0) {
+    alertas.push({tipo:'warn', icon:'⚠️', txt:'<b>Ingesta total baja</b> ('+analisis.kcal+' kcal). Si entrenas duro, mantener déficits muy grandes durante días reduce energía, masa muscular y rendimiento.'});
+  }
+  if (analisis.cafes > 4) {
+    alertas.push({tipo:'warn', icon:'☕', txt:'<b>Muchos cafés hoy</b> ('+analisis.cafes+'). La cafeína estimula la secreción ácida del estómago — en personas sensibles puede dar acidez, pesadez o reflujo.'});
+  }
+  const tieneVerdura = ['comida','cena'].some(c => (d[c]||[]).some(x => /lechuga|tomate|brócoli|brocoli|espinaca|verdura|ensalada|pimient|calabac|berenjena|champiñ|coliflor|judía|judia|zanahoria|acelga|esparrag|alcachofa|repollo/i.test(x.nombre)));
+  if (!tieneVerdura && ((d.comida||[]).length + (d.cena||[]).length) > 0) {
+    alertas.push({tipo:'info', icon:'🥗', txt:'<b>Sin verdura registrada en comida ni cena.</b> Añadir un plato vegetal aporta fibra, micronutrientes y volumen sin muchas kcal.'});
+  }
+  const cenaVacia = !d.cena || d.cena.length === 0;
+  const ahora = new Date();
+  const esHoy = selectedDate === todayKey();
+  if (cenaVacia && esHoy && ahora.getHours() >= 21) {
+    alertas.push({tipo:'warn', icon:'🌙', txt:'<b>Cena vacía a estas horas.</b> Saltarse cenas no acelera la pérdida de grasa; sí dificulta el descanso y la recuperación post-entreno. Una cena ligera con proteína + verdura es buena opción.'});
+  }
+  if (analisis.alimentosRiesgo.length === 0 && analisis.kcal > 1200) {
+    alertas.push({tipo:'ok', icon:'✅', txt:'<b>Día limpio</b>. No detecto alimentos típicamente conflictivos para tu sistema digestivo.'});
+  }
+
+  if (alertas.length > 0) {
+    html += '<div class="salud-card">'+
+      '<div class="salud-card-header"><div class="salud-card-icon" style="background:#fef3c7">💡</div><div class="salud-card-title">Observaciones del día</div></div>';
+    alertas.forEach(a => {
+      html += '<div class="alert-box '+a.tipo+'"><div class="alert-icon">'+a.icon+'</div><div class="alert-content">'+a.txt+'</div></div>';
+    });
+    html += '</div>';
+  }
+
+  // -------- RIESGO DIGESTIVO --------
+  if (analisis.alimentosRiesgo.length > 0) {
+    html += '<div class="salud-card">'+
+      '<div class="salud-card-header"><div class="salud-card-icon" style="background:#fee2e2">⚠️</div><div class="salud-card-title">Alimentos a vigilar hoy</div></div>'+
+      '<p style="font-size:13px;color:#4b5563;margin-bottom:10px;line-height:1.5">Estos alimentos que has registrado <b>pueden</b> dar molestias digestivas (hinchazón, gases, pesadez, reflujo). No significan que estén "mal" — solo que conviene observar cómo te sientan a ti.</p>';
+
+    analisis.alimentosRiesgo.forEach(ar => {
+      const esAlto = ar.riesgos.includes('fritos_aceite') || ar.riesgos.includes('conservantes');
+      html += '<div class="alimento-riesgo'+(esAlto ? ' alto' : '')+'">'+
+        '<div style="flex:1"><div class="ar-name">'+esc(ar.nombre)+'</div>'+
+        '<div class="ar-reason">'+ar.riesgos.map(r => RIESGO_LABEL[r] || r).join(' · ')+'</div></div>'+
+        '</div>';
+    });
+    // Resumen agrupado
+    const riesgosOrdenados = Object.entries(analisis.riesgosMap).sort((a,b)=>b[1]-a[1]);
+    html += '<div style="margin-top:14px;padding-top:12px;border-top:1px solid #e5e7eb">';
+    html += '<div style="font-size:13px;font-weight:600;color:#1f2937;margin-bottom:8px">Tipos detectados hoy:</div>';
+    riesgosOrdenados.forEach(([rg, n]) => {
+      html += '<div style="font-size:12px;color:#4b5563;margin-bottom:6px;line-height:1.5"><b>'+RIESGO_LABEL[rg]+'</b> ('+n+' alimento'+(n>1?'s':'')+')<br>'+(RIESGO_CONSEJO[rg]||'')+'</div>';
+    });
+    html += '</div>';
+    html += '</div>';
+  }
+
+  // -------- REGISTRO DE SÍNTOMAS DIGESTIVOS --------
+  html += renderSintomasBlock(sint);
+
+  // -------- PATRONES (correlación síntomas/alimentos) --------
+  html += renderPatronesBlock();
+
+  // -------- DESCARGO --------
+  html += '<div class="disclaimer">Información orientativa. Si las molestias persisten, consulta con tu médico de cabecera o un nutricionista.</div>';
+
+  document.getElementById('tab-salud').innerHTML = html;
+}
+
+function renderSintomasBlock(sint) {
+  const sintomas = [
+    {key:'hinchazon', label:'Hinchazón', icon:'🎈'},
+    {key:'gases', label:'Gases', icon:'💨'},
+    {key:'acidez', label:'Acidez/Reflujo', icon:'🔥'},
+    {key:'pesadez', label:'Pesadez', icon:'😴'},
+  ];
+  let html = '<div class="salud-card">'+
+    '<div class="salud-card-header"><div class="salud-card-icon" style="background:#fce7f3">🤔</div><div class="salud-card-title">¿Cómo te has sentido hoy?</div></div>'+
+    '<p style="font-size:13px;color:#4b5563;margin-bottom:12px;line-height:1.5">Toca el nivel de cada síntoma (0 = ninguno, 5 = muy intenso). Sirve para detectar qué alimentos te sientan peor con el tiempo.</p>';
+
+  sintomas.forEach(s => {
+    const valor = sint[s.key] || 0;
+    html += '<div style="margin-bottom:14px">'+
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">'+
+      '<span style="font-size:18px">'+s.icon+'</span>'+
+      '<span style="font-size:14px;font-weight:600;color:#1f2937">'+s.label+'</span></div>'+
+      '<div class="sintoma-scale">';
+    for (let i = 0; i <= 5; i++) {
+      const sel = (valor === i) ? 'selected severity-'+i : '';
+      html += '<button class="scale-btn '+sel+'" onclick="setSintoma(\''+s.key+'\','+i+')">'+i+'</button>';
+    }
+    html += '</div></div>';
+  });
+
+  // Nota libre
+  const nota = (sint && sint.nota) || '';
+  html += '<div style="margin-top:14px">'+
+    '<label class="inp-label" style="margin-top:0">Notas (opcional)</label>'+
+    '<textarea class="inp" id="sint-nota" rows="2" placeholder="Por ejemplo: dormí mal, comí fuera, me siento bien hoy..." style="resize:vertical;font-family:inherit" onchange="setSintoma(\'nota\',this.value)">'+esc(nota)+'</textarea>'+
+    '</div>';
+
+  if (sint && Object.keys(sint).length > 0) {
+    html += '<button class="btn-secondary" style="margin-top:8px" onclick="clearSintomas()">Borrar registro de hoy</button>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderPatronesBlock() {
+  const { correlaciones, diasConSintomas } = detectarPatrones();
+  if (diasConSintomas < 3) {
+    return '<div class="salud-card">'+
+      '<div class="salud-card-header"><div class="salud-card-icon" style="background:#e0e7ff">🔍</div><div class="salud-card-title">Patrones a lo largo del tiempo</div></div>'+
+      '<div class="salud-empty">Aún no hay datos suficientes. Registra síntomas durante al menos 3 días para empezar a ver patrones.<br><br><b>'+diasConSintomas+'/3 días</b> registrados</div></div>';
+  }
+  const ordenadas = Object.entries(correlaciones)
+    .map(([rg, info]) => ({ rg, dias: info.dias, mediaSev: info.sumaSev / info.dias }))
+    .filter(x => x.dias >= 2)
+    .sort((a,b) => (b.mediaSev * b.dias) - (a.mediaSev * a.dias))
+    .slice(0, 6);
+
+  let html = '<div class="salud-card">'+
+    '<div class="salud-card-header"><div class="salud-card-icon" style="background:#e0e7ff">🔍</div><div class="salud-card-title">Patrones a lo largo del tiempo</div></div>'+
+    '<p style="font-size:13px;color:#4b5563;margin-bottom:10px;line-height:1.5">Basado en <b>'+diasConSintomas+' días</b> con síntomas registrados. Los tipos de alimentos que más coinciden con tus molestias:</p>';
+
+  if (ordenadas.length === 0) {
+    html += '<div class="salud-empty">Aún no se detectan correlaciones claras.</div>';
+  } else {
+    ordenadas.forEach(p => {
+      const intensidad = p.mediaSev >= 3 ? '🔴 Alta' : p.mediaSev >= 1.5 ? '🟠 Media' : '🟡 Baja';
+      html += '<div class="patron-row"><b>'+RIESGO_LABEL[p.rg]+'</b><br>'+
+        'Presente '+p.dias+' día'+(p.dias>1?'s':'')+' con síntomas · intensidad media: '+intensidad+'</div>';
+    });
+    html += '<p style="font-size:12px;color:#6b7280;margin-top:10px;line-height:1.5"><b>Importante:</b> coincidencia no es causa. Si ves un patrón claro, prueba a evitar ese tipo de alimento unos días y observa si mejoras.</p>';
+  }
+  html += '</div>';
+  return html;
+}
+
+
 const MENSAJES_ANIMO = [
   { i:'💪', t:'Hoy es un buen día para cuidarte. Tu yo del futuro te lo agradecerá, Carmelo.' },
   { i:'🌟', t:'La constancia gana siempre a la motivación. Tú llevas semanas siendo constante.' },
@@ -692,7 +1380,7 @@ const todayKey = () => new Date().toISOString().slice(0,10);
 const fmt = k => { const [y,m,d] = k.split('-'); return d+'/'+m+'/'+y.slice(2); };
 const dayName = k => ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][new Date(k+'T12:00:00').getDay()];
 const dow = k => new Date(k+'T12:00:00').getDay();
-const empty = () => ({ desayuno:[], comida:[], cena:[], otros:[], ejercicio:[], peso:null, cafes:0, foto:null });
+const empty = () => ({ desayuno:[], comida:[], cena:[], otros:[], ejercicio:[], peso:null, cafes:0, foto:null, sintomas:null });
 
 let data = { dias: {}, factorActividad: 1.55 };
 let selectedDate = todayKey();
@@ -949,7 +1637,7 @@ function renderAjustes() {
 
     '<div class="section"><div class="section-h"><div class="section-h-left"><div class="sec-icon cena">ℹ️</div><span class="section-t-main">Acerca de la aplicación</span></div></div>'+
     '<p class="help-text">Aplicación de uso personal sin conexión. Los datos se almacenan localmente en el dispositivo. Para transferir entre dispositivos, exporte el archivo JSON e impórtelo en el otro.</p></div>'+
-    '<div class="section" style="opacity:0.6;font-size:12px;text-align:center;padding:14px;color:#6b7280">Seguimiento de Dieta · versión 1.3</div>';
+    '<div class="section" style="opacity:0.6;font-size:12px;text-align:center;padding:14px;color:#6b7280">ALISALUD · versión 1.4</div>';
 }
 
 function showInfo(tipo) {
@@ -1025,7 +1713,7 @@ function setPerfil(campo, valor) {
   save(); renderAll();
 }
 
-function renderAll() { renderHoy(); renderPeso(); renderHistorial(); renderAjustes(); }
+function renderAll() { renderHoy(); renderPeso(); renderSalud(); renderHistorial(); renderAjustes(); }
 
 function changeDate(delta) {
   const d = new Date(selectedDate+'T12:00:00');
@@ -1271,6 +1959,7 @@ function switchTab(name) {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
   document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === 'tab-'+name));
   if (name === 'peso') renderPeso();
+  if (name === 'salud') renderSalud();
 }
 
 function exportJSON() {
@@ -1348,9 +2037,22 @@ function removeLockFlow() {
   renderAjustes();
 }
 
+// === Pantalla de bienvenida ALISALUD ===
+function hideSplash() {
+  const splash = document.getElementById('splash-screen');
+  if (splash) {
+    splash.classList.add('hide');
+    setTimeout(() => { splash.style.display = 'none'; }, 600);
+  }
+}
+
 load();
 renderAll();
-initLock();
+// La pantalla de bienvenida dura 4 s; tras ello, inicia el lock (PIN/biometría) si está configurado
+setTimeout(() => {
+  hideSplash();
+  setTimeout(() => { initLock(); }, 300);
+}, 4000);
 </script>
 </body>
 </html>
